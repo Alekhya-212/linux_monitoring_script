@@ -1,3 +1,4 @@
+#!/bin/bash
 #creating log file with timestamp
 timestamp=$(date +"%y%m%d_%H%M%S")
 logfile="/var/log/custom_monitor/monitor_$timestamp.log"
