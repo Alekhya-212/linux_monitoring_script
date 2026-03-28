@@ -1,0 +1,26 @@
+#creating log file with timestamp
+timestamp=$(date +"%y%m%d_%H%M%S")
+logfile="/var/log/custom_monitor/monitor_$timestamp.log"
+
+#Creating the log directory
+mkdir -p /var/log/custom_monitor
+
+echo "Report at ($timestamp)" >> $logfile
+#CPU and memory snapshot
+echo -e "\n CPU and Memory Usage" >> $logfile
+top -b -n 1 | head -n 5 >> $logfile 
+echo -e "\n Top 5 memory-consuming Prcoesses:" >> $logfile
+ps aux --sort=-%mem | head -n 6 >> $logfile
+
+#Disk usage
+
+echo -e "\n Disk usage" >>$logfile
+df -h >> $logfile
+
+#failed login attempts
+
+echo -e "\n failed login attemps" >> $logfile
+failed=$(grep "Failed password" /var/log/secure | wc -l)
+echo " total failed login attempts: $failed" >> $logfile
+
+echo -e "\n End of the report" >>$logfile
